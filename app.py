@@ -76,6 +76,49 @@ def chat():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/docs', methods=['GET'])
+def docs():
+    documentation = {
+      "api_version": "1.0",
+      "documentation": [
+        {
+          "method": "GET",
+          "url": "/",
+          "description": "Returns a health check status of the API, including uptime, Groq API status, and server time.",
+          "response": {
+            "status": "OK",
+            "uptime": "HH:MM:SS",
+            "groq_status": "llama3-8b-8192 is responsive",
+            "server_time": "YYYY-MM-DD HH:MM:SS",
+            "message": "All systems are operational."
+          }
+        },
+        {
+          "method": "POST",
+          "url": "/chat",
+          "description": "Handles user messages and generates responses using the Groq API.",
+          "request_body": {
+            "message": "The input message sent by the user that is to be processed."
+          },
+          "response": {
+            "response": "The response from the Groq API based on the user input."
+          },
+          "errors": [
+            {
+              "code": "400",
+              "message": "Message is required"
+            },
+            {
+              "code": "500",
+              "message": "Internal server error or error while processing Groq API."
+            }
+          ]
+        }
+      ]
+    }
+    return jsonify(documentation), 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
