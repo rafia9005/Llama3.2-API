@@ -2,3 +2,5 @@ python-dotenv
 Flask
 Groq
 flask-cors
+flasgger
+
